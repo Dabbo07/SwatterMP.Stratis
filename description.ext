@@ -1,0 +1,17 @@
+#define DELAY_CHARACTER 0.06;
+#define DELAY_CURSOR    0.04;
+
+enableDebugConsole = 2;
+respawnOnStart = 1;
+respawn = 3;
+respawnDelay = 10;
+respawnDialog = false;
+disabledAI = 1;
+
+author = "Darren 'Dabbo' Edmonds";
+onLoadName = "Swatter Multiplayer";
+onLoadMission = "Hunter Vs Prey Deathmatch";
+class Header
+{
+	gameType = DM;
+};
