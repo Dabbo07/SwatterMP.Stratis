@@ -6,12 +6,14 @@ class Mission
 		"A3_Characters_F_BLUFOR",
 		"a3_characters_f",
 		"a3_map_stratis",
-		"A3_Air_F_EPC_Plane_CAS_01"
+		"A3_Air_F_EPC_Plane_CAS_01",
+		"A3_Characters_F_Civil"
 	};
 	addOnsAuto[]=
 	{
 		"A3_Characters_F_BLUFOR",
 		"a3_characters_f",
+		"A3_Characters_F_Civil",
 		"a3_map_stratis"
 	};
 	randomSeed=3317007;
@@ -36,7 +38,7 @@ class Mission
 	};
 	class Groups
 	{
-		items=20;
+		items=21;
 		class Item0
 		{
 			side="WEST";
@@ -497,10 +499,28 @@ class Mission
 				};
 			};
 		};
+		class Item20
+		{
+			side="CIV";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={7088.3647,7.3865185,5972.1772};
+					id=20;
+					side="CIV";
+					vehicle="C_man_1";
+					leader=1;
+					skill=0.60000002;
+					text="plr00";
+				};
+			};
+		};
 	};
 	class Markers
 	{
-		items=26;
+		items=27;
 		class Item0
 		{
 			position[]={127.39835,0.0083565414,8092.019};
@@ -787,6 +807,18 @@ class Mission
 			fillName="Border";
 			a=150;
 			b=150;
+			drawBorder=1;
+		};
+		class Item26
+		{
+			position[]={3562.1294,150.07495,4403.9971};
+			name="spawnPrey";
+			markerType="RECTANGLE";
+			type="Empty";
+			colorName="ColorRed";
+			fillName="Border";
+			a=1400;
+			b=1400;
 			drawBorder=1;
 		};
 	};

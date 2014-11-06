@@ -1,8 +1,10 @@
+serverLastHunter = plr00;
+serverCurrentHunter = plr00;
 
 uiSleep 15;
 spawnNewPlaneFunc = {
 	private ["_unit"];
-	_unit = _this;
+	_unit = _this select 0;
 	
 	_rMarker = floor(random 6);
 	_rMarkerName = format["spawn0%1", _rMarker];
@@ -33,17 +35,38 @@ spawnNewPlaneFunc = {
 
 	_unit moveInDriver hunterPlane;
 	
-	monkey = 2;
-	publicVariable "monkey";
+	netMsgNewHunter= [ _unit, serverLastHunter ];
+	publicVariable "netMsgNewHunter";
 	
-	newHunter = [ _unit, 1 ];
-	publicVariable "newHunter";
-	player globalChat "message sent";
-	
+	if (isServer) then {
+		// If this is a listen server, ensure player has a message notification.
+		netMsgNewHunter call clientHunterMessage;
+	};
 };
 
+handleNotificationFunc = {
+	// [0:Player, 1:Killed Unit, 2:Killer Unit]
+	player globalChat format["Note: last(%1) killer(%2)", netMsgHunterKilled select 1, netMsgHunterKilled select 2];
+	serverLastHunter = netMsgHunterKilled select 1;
+	serverCurrentHunter = netMsgHunterKilled select 2;
+	if (serverLastHunter == serverCurrentHunter) then {
+		_selPlr = floor(random (count playableUnits));
+		serverLastHunter = plr00;
+		serverCurrentHunter = (playableUnits select _selPlr);
+	};
+	[serverCurrentHunter] call spawnNewPlaneFunc;
+};
+
+"netMsgHunterKilled" addPublicVariableEventHandler {
+	call handleNotificationFunc;
+};
+
+// Select First Hunter
+uiSleep 2;
 _selPlr = floor(random (count playableUnits));
-(playableUnits select _selPlr) call spawnNewPlaneFunc;
+serverLastHunter = plr00;
+serverCurrentHunter = (playableUnits select _selPlr);
+[serverCurrentHunter] call spawnNewPlaneFunc;
 
 uiSleep 10;
 execVM "preyRocketSpawner.sqf";
