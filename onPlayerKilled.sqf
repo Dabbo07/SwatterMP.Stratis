@@ -1,19 +1,13 @@
 _killed = _this select 0;
 _killer = _this select 1;
-
-// TODO: Two calls happening in events, could be confusion on client/server on listen - force dedicated mode?
-
 if (clientIsPlayerHunter) then {
-	netMsgHunterKilled = [ player, _killed, _killer];
-	player globalChat format["Killed(%1) Killer(%2)", _killed, _killer];
-	publicVariableServer "netMsgHunterKilled";
-	if (isServer) then {
-		[] call handleNotificationFunc;
+	player globalChat format["Killer %1 : %2", _killer, (isNil "_killer")];
+	if (isNil "_killer" || _killer == player) then {
+		player globalChat "No killer found";
+		_killer = plr00;
+		_killed = plr00;
 	};
+	uiSleep 12;
+	hunterDeathMessage = [ _killed, _killer];
+	publicVariableServer "hunterDeathMessage";
 };
-
-// TODO: Add scoring for normal kills?
-//if (_killer != player && !isNull _killer) then {
-//	killerScored = _killer;
-//	publicVariableServer "killerScored";
-//};
